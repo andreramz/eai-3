@@ -2,7 +2,7 @@
 	require_once('nusoap-0.9.5/lib/nusoap.php');
 	$server = new soap_server();
 	
-	$namespace = "http://localhost/eai-3/tutorial/webservice/server.php";
+	$namespace = "http://localhost/webservice-kelompok11/tutorial/webservice/server.php";
 	$server->configureWSDL("BooksApp");
 	$server->wsdl->schemaTargetNamespace = $namespace;
 	
