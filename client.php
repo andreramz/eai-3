@@ -87,6 +87,13 @@
 					$responseConversionRate = $responseConversionRate['GetConversionRateResult'];
 				}
 
+				$responseConversionAmount = $client->call('GetConversionAmount', array('parameters'=>$data));
+				if(!isset($responseConversionAmount['GetConversionAmountResult'])) {
+					$responseConversionAmount = "An error occurs. Please try again.";
+				} else {
+					$responseConversionAmount = $responseConversionAmount['GetConversionAmountResult'];
+				}
+
 				echo "<p><strong class='mt-5'>Currency From</strong><br>";
 				echo $_POST['CurrencyFrom'];
 				echo "</p><p><strong>Currency To</strong><br>";
@@ -97,8 +104,8 @@
 				echo $_POST['Amount'];
 				echo "</p><p><strong>Currency Conversion Rate</strong><br>";
 				echo $responseConversionRate;
-				echo "</p><strong>Currency Conversion Amount</strong>";
-				
+				echo "</p><strong>Currency Conversion Amount</strong><br>";
+				echo $responseConversionAmount;
 			}
 		?>
 	</div>
