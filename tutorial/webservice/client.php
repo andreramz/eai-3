@@ -1,6 +1,6 @@
 <?php
 	require_once('nusoap-0.9.5/lib/nusoap.php');
-	$client = new nusoap_client('http://localhost/webservice/server.php');
+	$client = new nusoap_client('http://localhost/eai/tutorial/webservice/server.php');
 	
 	$data = array(
 		'ID'=>"1",
