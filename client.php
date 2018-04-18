@@ -1,4 +1,5 @@
 <?php
+	// import nusoap dan assign alamat server web service
 	require_once('tutorial/webservice/nusoap-0.9.5/lib/nusoap.php');
 	$client = new nusoap_client('http://currencyconverter.kowabunga.net/converter.asmx?WSDL', true);
 ?>
@@ -15,20 +16,22 @@
 		<h1 class="mb-5">Currency Conversion Rate & Amount</h1>
 	<div class="row">
 	<div class="col">
-		
-		<form name="form" action="" method="POST">
+	<!-- form untuk memasukkan input-->
+	<form name="form" action="" method="POST">
 		
         <div class="form-group">
 			<label for="CurrencyFrom">Currency From*</label>
 			<select name="CurrencyFrom" id="CurrencyFrom" class="form-control custom-select" required="">
 				<option disabled selected value=""> Select a currency </option>
 					<?php
+						// Memanggil fungsi untuk mendapatkan Currencies
 						$response = $client->call('GetCurrencies');
 
 						var_dump($response);
 						$currencies = $response['GetCurrenciesResult'];
 						$currency = $currencies['string'];
 
+						//Menampilkan daftar currency
 						for($i = 0; $i < sizeof($currency); $i++){
 							echo "<option value='$currency[$i]'>$currency[$i]</option>";
 						}
@@ -41,12 +44,14 @@
 			<select name="CurrencyTo" id="CurrencyTo" class="form-control custom-select" required="">
 				<option disabled selected value=""> Select a currency </option>
 					<?php
+						// Memanggil fungsi untuk mendapatkan Currencies
 						$response = $client->call('GetCurrencies');
 
 						var_dump($response);
 						$currencies = $response['GetCurrenciesResult'];
 						$currency = $currencies['string'];
 
+						//Menampilkan daftar currency
 						for($i = 0; $i < sizeof($currency); $i++){
 							echo "<option value='$currency[$i]'>$currency[$i]</option>";
 						}
@@ -58,10 +63,11 @@
 			<label for="RateDate">Date*</label>
 			<input type="date" name="RateDate" id="RateDate" class="form-control" required>
 		</div>
-		
+
+		<!-- memasukkan nilai yang akan dikonversikan -->
         <div class="form-group">
 			<label for="Amount">Amount*</label>
-			<input placeholder="Enter the amount" type="number" name="Amount" id="Amount" value="0" class="form-control" >
+			<input placeholder="Enter the amount" type="number" name="Amount" id="Amount" value="0" class="form-control" min="0" step="500" required>
 		</div>
 		<a>* required to be filled in</a>
 		<div class="float-right">
@@ -71,8 +77,10 @@
 	</div>
 	<div class="col ml-5 mt-4">
 		<?php
-			if(isset($_POST['CurrencyFrom']) && isset($_POST['CurrencyTo']) && isset($_POST['RateDate'])){
+			// Cek apakah nilai yang dibutuhkan sudah terpenuhi
+			if(isset($_POST['CurrencyFrom']) && isset($_POST['CurrencyTo']) && isset($_POST['RateDate']) && isset($_POST['Amount'])){
 
+				//data untuk parameter yang akan dikirim
 				$data = array(
 					'CurrencyFrom'=>$_POST['CurrencyFrom'],
 					'CurrencyTo'=>$_POST['CurrencyTo'],
@@ -80,6 +88,7 @@
 					'Amount'=>$_POST['Amount']
 				);
 
+				// Memanggil fungsi GetConversionRate dan GetConversionAmount berdasarkan parameter yang dipilih
 				$responseConversionRate = $client->call('GetConversionRate', array('parameters'=>$data));
 				if(!isset($responseConversionRate['GetConversionRateResult'])) {
 					$responseConversionRate = "An error occurs. Please try again.";
@@ -93,7 +102,8 @@
 				} else {
 					$responseConversionAmount = $responseConversionAmount['GetConversionAmountResult'];
 				}
-
+				
+				// Menampilkan hasil response
 				echo "<p><strong class='mt-5'>Currency From</strong><br>";
 				echo $_POST['CurrencyFrom'];
 				echo "</p><p><strong>Currency To</strong><br>";
