@@ -1,4 +1,11 @@
 <?php
+	/*
+		Nama Anggota Kelompok:
+		Safira Pusparanti - 1506689244
+		Andre Ramadhani - 1506689484
+		Atikah Luthfiana - 1506689250
+	*/
+
 	// import nusoap dan assign alamat server web service
 	require_once('tutorial/webservice/nusoap-0.9.5/lib/nusoap.php');
 	$client = new nusoap_client('http://currencyconverter.kowabunga.net/converter.asmx?WSDL', true);
